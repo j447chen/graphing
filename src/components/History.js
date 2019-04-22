@@ -23,30 +23,18 @@ class History extends PureComponent{
         this.myDiv = React.createRef()
 
     }
-
-    componentDidMount () {
-        console.log("HEIIIIIIGHHHHT" + this.myDiv.current.offsetHeight)
-      }
-
     render(){
-        const displayList = this.props.historyList.map((obj) => (<HistoryEntries handleDelete={this.props.handleDelete} obj={obj}></HistoryEntries>))
+        const displayList = this.props.historyList.map((obj) => (<HistoryEntries changeSelectedId={this.props.changeSelectedId} handleDelete={this.props.handleDelete} obj={obj}></HistoryEntries>))
         return (
             <React.Fragment>
             <div ref={this.myDiv} id="scrollableDiv" style={{ height: this.props.historyHeight, overflow: "auto" }} className="container"> 
             <InfiniteScroll dataLength="10" scrollableTarget="scrollableDiv">
                 {displayList}
-                {/* <HistoryEntries></HistoryEntries>
-                <HistoryEntries></HistoryEntries>
-                <HistoryEntries></HistoryEntries>
-                <HistoryEntries></HistoryEntries>
-                <HistoryEntries></HistoryEntries>
-                <HistoryEntries></HistoryEntries> */}
             </InfiniteScroll>
             </div>
             </React.Fragment>
         )
     }
-
 }
 
 export default History;

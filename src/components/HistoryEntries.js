@@ -18,15 +18,22 @@ class HistoryEntries extends Component {
     constructor(props){
         super(props);
         this.handleDeleteEntry = this.handleDeleteEntry.bind(this);
+        this.handleSelectedId = this.handleSelectedId.bind(this);
+        this.state = {
+            selected: "",
+        }
     }
 
     handleDeleteEntry(){
         this.props.handleDelete(this.props.obj);
     }
+    handleSelectedId(){
+        this.props.changeSelectedId(this.props.obj);
+    }
 
     render(){
     return (
-        <div className="card-layout ui segment black"> 
+        <div onClick={this.handleSelectedId} className={"card-layout ui segment " + this.state.selected} > 
             {/* <div className="functionInput"> */}
             <div class = "ui labeled input functionInput">
                         <div class = "ui basic label">

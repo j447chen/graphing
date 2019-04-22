@@ -3,9 +3,13 @@ import React, {
 } from 'react';
 import {
     Form,
+    Input,
 } from 'semantic-ui-react'
 import './GraphInput.css'
 import 'semantic-ui-css/semantic.min.css'
+const math = require('mathjs')
+window.d3 = require('d3')
+const functionPlot = require('function-plot')
 
 class GraphInput extends Component {
     constructor(props) {
@@ -16,20 +20,54 @@ class GraphInput extends Component {
             maxX: 50,
             minY: -100,
             maxY: 100,
-            axisFocus: "X",
+            rangeXError: false,
+            rangeYError: false,
+            functionError: false,
+            axisFocus: "X"
         }
 
         this.handleClick = this.handleClick.bind(this);
         this.handleFunc = this.handleFunc.bind(this);
         this.handleInvalidInterval = this.handleInvalidInterval.bind(this);
         this.handleLabel = this.handleLabel.bind(this);
-        this.getMinMax = this.getMinMax.bind(this);
+        this.functionChecker = this.functionChecker.bind(this);
+        //console.log(math.eval("2fds"));
     }
+    functionChecker(){
+        const trig = ["sin", "cos", "tan", "cot", "sec", "csc"];
+    
+        return true;
+    }
+
   //obj = {mathFunc: "", minX: "", maxX: "", minY: "", maxY: "", id: ""}
     handleClick(event) {
         event.preventDefault();
-        console.log('submit click');
-        this.props.updateList({mathFunc: this.state.mathFunction, minX: this.state.minX, maxX: this.state.maxX, minY: this.state.minY, maxY: this.state.maxY});
+        //rangecheck
+        if (this.state.maxX <= this.state.minX){
+            this.setState({
+                rangeXError: true,
+            })
+            return;
+        }
+        else if (this.state.maxY <= this.state.minY){
+            this.setState({
+                rangeYError: true,
+            })
+            return;
+        }
+        else if (this.functionChecker() === "false"){
+            this.setState({
+                functionError: true,
+            })
+            return;
+        }
+        else {
+            this.setState({
+                rangeXError : false,
+                rangeYError : false,
+                functionError : false,
+            }, () => this.props.updateList({mathFunc: this.state.mathFunction, minX: this.state.minX, maxX: this.state.maxX, minY: this.state.minY, maxY: this.state.maxY})) 
+        }  
     }
 
     handleFunc(event) {
@@ -48,36 +86,17 @@ class GraphInput extends Component {
 
     handleLabel = (changeTo) => event => {
         event.preventDefault();
-        // this.setState({
-        //     [name]: event.target.value,
-        // })
         this.setState((state, props) => ({
             axisFocus: changeTo,
         }));
-
-    }
-    getMinMax(axisFocus="X"){
-        console.log("getminmax called");
-        switch(axisFocus){
-            case "X": 
-                return ({
-                    min: this.state.minX,
-                    max: this.state.maxX,
-                })
-            case "Y": 
-                return ({
-                    min: this.state.minY,
-                    max: this.state.maxY,
-                })
-            default:
-                return ({
-                    min: this.state.minX,
-                    max: this.state.maxX,
-                })
-        }
     }
     render() {
-        const displayAxis = this.state.axisFocus === "X" ? (
+        const errorPrompt = this.state.rangeXError || this.state.rangeYError || this.state.functionError ?
+         <div class="ui negative message">
+                Please Check Function and/or X,Y Axis Ranges
+        </div>  : null;
+        
+      const displayAxis = this.state.axisFocus === "X" ? (
                                 <div class="field">
                                 <label>
                                     <label class="ui label gray" onClick={this.handleLabel("X")}> X-Axis </label>
@@ -123,7 +142,7 @@ class GraphInput extends Component {
                            </div>
                            ,
                            <div class = "field">
-                               <div class = "ui labeled right input">
+                               <div class = "ui labeled input">
                                    <input onChange={this.handleInvalidInterval("maxY")}  type="text" placeholder={this.state.maxY} id="maxY"
                                         value={this.state.maxY}></input>
                                    <div class = "ui basic label">
@@ -135,12 +154,12 @@ class GraphInput extends Component {
                    </div>
         return ( 
             <div className="form">
-                <Form class = 'ui'>
+                <Form className = 'ui'>
                 {/* Function Input */}
-                < div class = "field">
+                < div className = "field">
                     <label> Function </label> 
-                    <div class = "ui labeled input">
-                        <div class = "ui basic label">
+                    <div className = "ui labeled input">
+                        <div className = "ui basic label">
                         Y = 
                         </div>
                         <input onChange = {
@@ -164,6 +183,7 @@ class GraphInput extends Component {
 
                 {/* End */}
                 </Form>
+                {errorPrompt}
             </div>
         )
     }

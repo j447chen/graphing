@@ -13,6 +13,15 @@ import historyHeightCalculator from './utilities/historyHeightCalculator'
 window.d3 = d3;
 let shortid = require('shortid');
 
+const sample_data = [{id: "rtGWCXEiL", mathFunc: "sin(2x)", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rtweXdfL", mathFunc: "cos(x)", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rtGWdfdfiL", mathFunc: "tan(0.5)", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rfGassEiL", mathFunc: "x^2+2x+3", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "irikqiL", mathFunc: "x^3+33", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rtofoqmwiL", mathFunc: "x^293", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rtGgkqweiL", mathFunc: "x^29", maxX: 50, maxY:100, minX:"-100", minY:-100},
+                    {id: "rfdkkqweiL", mathFunc: "sin(x)+cos(x)+23", maxX: 50, maxY:100, minX:"-100", minY:-100}];
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +32,7 @@ class App extends Component {
       minX: -50,
       maxX: 50,
       historyHeight: 0,
-      historyList : [],
+      historyList : sample_data,
       compareOn : false,
       compareIds : [],
       selectedId : null,
@@ -39,7 +48,6 @@ class App extends Component {
 
   componentDidMount() {
     console.log(this.state.height);
-    // Additionally I could have just used an arrow function for the binding `this` to the component...
     window.addEventListener("resize", this.updateDimensions);
     this.updateDimensions();
   }
@@ -84,30 +92,26 @@ class App extends Component {
     const graph = this.state.historyList.length > 0 ?  <Graph historyList={this.state.historyList} compareIds={this.state.compareIds}
     compareOn={this.state.compareOn} width={this.state.width} height={this.state.height} selectedId={this.state.selectedId}></Graph> : null; 
 
-    console.log(graph);
     return (
       <div  className="wrapper">
         <div  className="wrapper-chart">
-          <div ref="Chart" classname="chart1"> 
-            {/* <Graph  width={this.state.width} height={this.state.height} minX={this.state.minX} maxX={this.state.maxX} mathFunc={this.state.mathFunc}></Graph> */}
-                {/* <Graph historyList={this.state.historyList} compareIds={this.state.compareIds}
-                      compareOn={this.state.compareOn} selectedId={this.state.selectedId}></Graph> */}
-                      {graph}
+          <div ref="Chart" className="chart1"> 
+              {graph}
           </div>
-          <div className="icons-button"> 
+          <div className="items-button"> 
             <ChartButtons></ChartButtons>
           </div>
         </div>
         <div className="wrapper-sidebar">
           <div className="sidebar-input">
-              <GraphInput updateList={this.updateList}></GraphInput>
+              <GraphInput refresh={this.updateDimensions} updateList={this.updateList}></GraphInput>
           </div> 
           <div className="compare-button">
-            {/* <button class="ui right floated button"> Some Action</button> */}
-            <div class="ui label">Compare</div>
+      {/* <button class="ui right floated button"> Some Action</button> */}
+          {/* <div class="ui label">Compare</div> */}
           </div>
           <div ref={this.myDiv} className="sidebar-history">
-              <History handleDelete={this.handleDelete} historyHeight={this.state.historyHeight} historyList={this.state.historyList}></History>
+              <History changeSelectedId={this.changeSelectedId} handleDelete={this.handleDelete} historyHeight={this.state.historyHeight} historyList={this.state.historyList}></History>
           </div>
         </div>
     </div>

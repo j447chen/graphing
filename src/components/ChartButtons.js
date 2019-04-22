@@ -5,12 +5,12 @@ import 'semantic-ui-css/semantic.min.css'
 import './ChartButtons.css'
 
 const ChartButtons = (props) => (
-        <div class="ui icon buttons">
-            <button class="ui button">
-                <i class="expand icon"></i>
+        <div className="ui icon buttons right float" >
+            <button className="ui button">
+                <i className="expand icon"></i>
             </button>
-            <button class="ui button">
-                <i class="location arrow icon"></i>
+            <button className="ui button">
+                <i className="location arrow icon"></i>
             </button>
         </div>
 );
