@@ -56,7 +56,6 @@ class GraphInput extends Component {
         }));
 
     }
-
     getMinMax(axisFocus="X"){
         console.log("getminmax called");
         switch(axisFocus){
@@ -77,7 +76,6 @@ class GraphInput extends Component {
                 })
         }
     }
-
     render() {
         const displayAxis = this.state.axisFocus === "X" ? (
                                 <div class="field">
