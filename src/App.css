@@ -31,3 +31,115 @@
     transform: rotate(360deg);
   }
 }
+
+
+.items-button{
+  display: flex;
+  flex-flow: row-reverse wrap;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  justify-content: flex-end;
+} 
+
+.wrapper-chart{
+  display: grid;
+  grid-area: a;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 6%;
+  grid-gap: 1% 1%;
+  padding: 3% 3%;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.chart1 {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  /* background: #fff; */
+  /* box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2); */
+  background: green;
+}
+
+@media screen and (min-width: 480px){
+  .wrapper {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    /* grid-gap: 1% 1%; */
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-columns: 1em repeat(4,1fr) 1em;
+    grid-template-rows: 2em repeat(4,1fr) 2em;
+    background: var(--theme-primary);
+    min-height: 0;
+    min-width: 0;
+    grid-template-areas:
+    ". . . . . ."
+    ". a a a a ."
+    ". a a a a ."
+    ". a a a a ."
+    ". s s s s ."
+    ". . . . . .";
+  }
+  .sidebar{
+    grid-area: s;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 50%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 14px 80px rgba(34, 35, 58, 0.2);
+  }
+}
+
+@media screen and (min-width: 760px){
+  .wrapper {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    /* grid-gap: 1% 1%; */
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-columns: 1em repeat(3,1fr) minmax(300px, 1fr) 1em;
+    grid-template-rows: 2em repeat(4,1fr) 2em;
+    background: var(--theme-primary);
+    min-height: 0;
+    min-width: 0;
+    grid-template-areas:
+    ". . . . . ."
+    ". a a a s ."
+    ". a a a s ."
+    ". a a a s ."
+    ". a a a s ."
+    ". . . . . .";
+  }
+  .wrapper-sidebar{
+    display: grid; 
+    grid-area: s;
+    grid-template-columns: minmax(300px,1fr);
+    grid-template-rows: 1fr 20px 2fr;
+    grid-gap: 10px 10px;
+    min-height: 0;
+    min-width: 0;
+    box-shadow: 10px 14px 80px rgba(34, 35, 58, 0.2);
+    background: #fff;
+    border-radius: 10px;
+    grid-template-areas:
+    "graph-input"
+    "compare"
+    "history"
+    "history";
+  }
+  .sidebar-input{
+    grid-area: "graph-input";
+  }
+
+  .compare-button{
+    grid-area: "compare";
+    justify-items: end;
+  }
+
+  .sidebar-history{
+    grid-area: "history";
+  }
+}
